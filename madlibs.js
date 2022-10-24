@@ -109,43 +109,68 @@ function parseStory(rawStory) {
 
   // console.log(results)
 
-  return results; // This line is currently wrong :)
+  return results; // return array of object in this way  [{ word: "Louis", pos: "noun" }, { word: "to" }, ..etc}]
 
 }
-
+/** buildForm
+ * function to build whole the form story
+ * storyObjects is the array of ojects (story after parsing)
+ */
 function buildForm(storyObjects) {
+  //store the div  of editStory
   const editStory = document.getElementById("editStory");
+  //store the div  of previewStory
   const previewStory = document.getElementById("previewStory");
-
+  // loop over the array using map
   storyObjects.map((object, index) => {
+    // check if the element has pos like { word: "Louis", pos: "noun" }
     if (object.pos) {
+      // build input under editStory parent
       buildInput(editStory, "text", object.pos, index);
-      buildLabel(previewStory, object.pos, true);
+      // build label under previewStory parent with green color
+      buildLabel(previewStory, object.pos, "green");
     }
+    // if the element does not have pos like { word: "to" }
     else {
+      // build label under editStory parent
       buildLabel(editStory, object.word);
+      // build label under previewStory parent
       buildLabel(previewStory, object.word);
     }
   });
 
 
 }
-
+/** buildInput
+ * function to build an input html element <input> </input>
+ * parent : the parent of this element
+ * type : type of input could be text or password
+ * placeholder: the value of the placeholder
+ */
 function buildInput(parent, type, placeholder, index) {
+  //create html element "input" and set some attribuites
   const input = document.createElement("input");
-  input.setAttribute("type", "text");
+  input.setAttribute("type", type);
   input.setAttribute("placeholder", placeholder);
   input.setAttribute("size", "10");
+  //append the created input to its parent
   parent.appendChild(input);
   return input;
-
 }
-function buildLabel(parent, text, isPos) {
+/** buildLabel
+ * function to build an label html element <label> </label>
+ * parent : the parent of this element
+ * type : type of input could be text or password
+ * text: the value of the text
+ * color: to determine the color of the lable
+ */
+function buildLabel(parent, text, color) {
+  //create html element "input" and set some attribuites
   const label = document.createElement("label");
-
-  label.style.color = isPos ? "green" : "black"
+  label.style.color = color ? color : "black"
   const node = document.createTextNode(text);
   label.appendChild(node);
+  //append the created input to its parent
   parent.appendChild(label);
   return label;
 
@@ -165,6 +190,7 @@ function buildLabel(parent, text, isPos) {
 getRawStory()
   .then(parseStory)
   .then((processedStory) => {
+    //call buildForm to build the story and pass array of objects "story after parsing"
     buildForm(processedStory);
     // console.log(processedStory);
   });
