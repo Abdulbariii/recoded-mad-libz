@@ -1,3 +1,62 @@
 /**
  * Your CSS goes here.
  */
+html,
+body {
+    font-size: 100%;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, serif;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 1.7;
+    color: black;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 30px;
+}
+
+h2 {
+    margin: 0;
+}
+
+input {
+    height: 20px;
+    margin: 3px;
+    text-align: center;
+    font-size: 15px;
+    padding: 0;
+    margin: 0;
+    color: #E8E8E8;
+    border-color: #E8E8E8;
+    color: black;
+}
+
+
+input:focus::placeholder {
+    color: transparent;
+}
+
+input:focus {
+    outline: none;
+    background-color: rgba(161, 161, 240, 0.299);
+    box-shadow: 0 0 0 2px rgba(124, 124, 232, 0.829);
+
+}
+
+label {
+    font-weight: bold;
+    margin: 3px;
+    font-size: 15px;
+
+}
+
+
+.madLibsPreview {
+    padding-top: 50px;
+}
