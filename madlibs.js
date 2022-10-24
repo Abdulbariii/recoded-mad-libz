@@ -121,14 +121,24 @@ function buildForm(storyObjects) {
   const editStory = document.getElementById("editStory");
   //store the div  of previewStory
   const previewStory = document.getElementById("previewStory");
+  let posPrev = [];
   // loop over the array using map
   storyObjects.map((object, index) => {
+    let isFirst = true;
     // check if the element has pos like { word: "Louis", pos: "noun" }
     if (object.pos) {
       // build input under editStory parent
-      buildInput(editStory, "text", object.pos, index);
+      const input = buildInput(editStory, "text", object.pos, index);
+      input.addEventListener('keypress', (event) => {
+        if (isFirst) {
+          posPrev[index].innerHTML = event.key;
+          isFirst = false;
+        }
+        else posPrev[index].innerHTML = posPrev[index].innerHTML + event.key;
+
+      }, false);
       // build label under previewStory parent with green color
-      buildLabel(previewStory, object.pos, "green");
+      posPrev[index] = buildLabel(previewStory, object.pos, "green");
     }
     // if the element does not have pos like { word: "to" }
     else {
