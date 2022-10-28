@@ -121,31 +121,34 @@ function buildForm(storyObjects) {
   const editStory = document.getElementById("editStory");
   //store the div  of previewStory
   const previewStory = document.getElementById("previewStory");
+  editStory.style.marginTop = "50px";
+  editStory.style.textAlign = "center";
+  previewStory.style.textAlign = "center";
+  previewStory.style.marginTop = "50px";
   let posPrev = [];
   // loop over the array using map
   storyObjects.map((object, index) => {
-    let isFirst = true;
     // check if the element has pos like { word: "Louis", pos: "noun" }
     if (object.pos) {
       // build input under editStory parent
       const input = buildInput(editStory, "text", object.pos, index);
-      input.addEventListener('keypress', (event) => {
-        if (isFirst) {
-          posPrev[index].innerHTML = event.key;
-          isFirst = false;
-        }
-        else posPrev[index].innerHTML = posPrev[index].innerHTML + event.key;
 
+      input.addEventListener('keyup', (event) => {
+        posPrev[index].innerHTML = input.value;
+        //if the user delete the input html elemets it should return to placeholder like (verb)
+        if (input.value == "") {
+          posPrev[index].innerHTML = object.pos;
+        }
       }, false);
-      // build label under previewStory parent with green color
-      posPrev[index] = buildLabel(previewStory, object.pos, "green");
+      // build span under previewStory parent with green color
+      posPrev[index] = buildSpan(previewStory, object.pos, "green");
     }
     // if the element does not have pos like { word: "to" }
     else {
-      // build label under editStory parent
-      buildLabel(editStory, object.word);
-      // build label under previewStory parent
-      buildLabel(previewStory, object.word);
+      // build span under editStory parent
+      buildSpan(editStory, object.word);
+      // build span under previewStory parent
+      buildSpan(previewStory, object.word);
     }
   });
 
@@ -167,22 +170,24 @@ function buildInput(parent, type, placeholder, index) {
   parent.appendChild(input);
   return input;
 }
-/** buildLabel
- * function to build an label html element <label> </label>
+/** buildSpan
+ * function to build an span html element <span> </span>
  * parent : the parent of this element
  * type : type of input could be text or password
  * text: the value of the text
  * color: to determine the color of the lable
  */
-function buildLabel(parent, text, color) {
+function buildSpan(parent, text, color) {
   //create html element "input" and set some attribuites
-  const label = document.createElement("label");
-  label.style.color = color ? color : "black"
+  const span = document.createElement("span");
+  span.style.marginLeft = "9px";
+
+  span.style.color = color ? color : "black"
   const node = document.createTextNode(text);
-  label.appendChild(node);
+  span.appendChild(node);
   //append the created input to its parent
-  parent.appendChild(label);
-  return label;
+  parent.appendChild(span);
+  return span;
 
 }
 
